@@ -11,17 +11,14 @@ CREATE TABLE "User" (
 CREATE TABLE "Todo" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
+    "completed" BOOLEAN NOT NULL DEFAULT false,
+    "userId" INTEGER NOT NULL,
 
     CONSTRAINT "Todo_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "Token" (
-    "accessToken" TEXT NOT NULL,
-    "refreshToken" TEXT NOT NULL,
-    "exp" TEXT NOT NULL
-);
-
 -- CreateIndex
-CREATE UNIQUE INDEX "Token_accessToken_key" ON "Token"("accessToken");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- AddForeignKey
+ALTER TABLE "Todo" ADD CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
